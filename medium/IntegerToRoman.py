@@ -12,25 +12,57 @@ interger = {
 def intToRoman(num: int) -> str:
     output = ""
 
-    if (num % 1000) != 0 and (num % 1000) < 900:
+    if (num % 1000) < 900:
         output = output + "M"*(num // 1000)
-        temp = num % 1000
+        num = num % 1000
     elif (num % 1000) >= 900:
+        output = output + "M"*(num // 1000)
+        output = output + "CM"
+        num = num % 1000 - 900
 
-        if temp % 500 != 0:
-            output = output + "D"*(temp // 500)
-            temp = temp % 500
-            if temp % 100 != 0:
-                output = output + "C"*(temp // 100)
-                temp = temp % 100
-                if temp % 50 != 0:
-                    output = output + "L"*(temp // 50)
-                    temp = temp % 50
-                    if temp % 10 != 0:
-                        output = output + "X"*(temp // 10)
-                        temp = temp % 10
-                        if temp % 5 != 0:
-                            output = output + "V"*(num // 5)
-                            output = output + "V"*(temp % 5)
+    if (num % 500) < 400:
+        output = output + "D"*(num // 500)
+        num = num % 500
+    elif (num % 500) >= 400:
+        output = output + "D"*(num // 500)
+        output = output + "CD"
+        num = num % 500 - 400
+
+    if (num % 100) < 90:
+        output = output + "C"*(num // 100)
+        num = num % 100
+    elif (num % 100) >= 90:
+        output = output + "C"*(num // 100)
+        output = output + "XC"
+        num = num % 100 - 90
+
+    if (num % 50) < 40:
+        output = output + "L"*(num // 50)
+        num = num % 50
+    elif (num % 50) >= 40:
+        output = output + "L"*(num // 50)
+        output = output + "XL"
+        num = num % 50 - 40
+
+    if (num % 10) < 9:
+        output = output + "X"*(num // 10)
+        num = num % 10
+    elif (num % 10) >= 9:
+        output = output + "X"*(num // 10)
+        output = output + "IX"
+        num = num % 10 - 9
+
+    if (num % 5) < 4:
+        output = output + "V"*(num // 5)
+        num = num % 5
+    elif (num % 5) >= 4:
+        output = output + "V"*(num // 5)
+        output = output + "IV"
+        num = num % 5 - 4
+
+    output = output + "I"*num
 
     return output
+
+
+print(intToRoman(1994))
