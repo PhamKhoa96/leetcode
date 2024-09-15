@@ -10,22 +10,34 @@ Explanation: The longest common subsequence is “GTAB”.
 """
 
 # https://www.geeksforgeeks.org/print-subsequences-string/
-def findSubsequences(input: str):
+# top-down (memoization)
+def findSubsequence(input: str):
     cache = {}
     if len(input) == 0:
         cache[''] = None
         return cache
-    for c in findSubsequences(input[:len(input) - 1]):
+    for c in findSubsequence(input[:len(input) - 1]):
         cache[c] = None
         cache[c + input[len(input)-1]] = None
     return cache
 
-def LCS(input1, input2):
+# bottom-up (tabulation)
+def findSubsequence2(input: str):
+    arr = ['']
+    for i in range(0, len(input)):
+        arrTmp = []
+        for j in arr:
+            arrTmp.append(j+input[i])
+        arr = arr + arrTmp
+    return arr
+
+def LCS(input1, input2, _callback = None):
     result = ''
-    tmp = findSubsequences(input1)
-    for c in findSubsequences(input2):
+    tmp = _callback(input1)
+    for c in _callback(input2):
         if c in tmp and len(c) > len(result):
             result = c
     return result
 
-print(LCS('AGGTAB', 'GXTXAYB'))
+print(LCS('AGGTAB', 'GXTXAYB', findSubsequence))
+print(LCS('AGGTAB', 'GXTXAYB', findSubsequence2))
